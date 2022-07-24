@@ -1,6 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, permissions
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.parsers import MultiPartParser
 
 from shops.models import Market, MarketTag, MarketItem
 from shops.serializers import PublicMarketListSerializer, UserMarketListCreateSerializer, TagSerializer, \
@@ -19,6 +20,7 @@ class MarketAllListAPIView(ListAPIView):
 class UserMarketListCreateAPIView(ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = UserMarketListCreateSerializer
+    parser_classes = (MultiPartParser,)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -55,12 +57,15 @@ class MarketItemListAPIView(ListAPIView):
 class UserMarketItemListCreateAPIView(ListCreateAPIView):
     serializer_class = UserMarketItemListCreateSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(market_id=self.kwargs['market_pk'])
+
     def get_queryset(self):
-        return MarketItem.objects.filter(market__owner=self.request.user, market_id=self.kwargs['market_id'])
+        return MarketItem.objects.filter(market__owner=self.request.user, market_id=self.kwargs['market_pk'])
 
 
 class UserMarketItemDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = UserMarketItemDetailSerializer
 
     def get_queryset(self):
-        return MarketItem.objects.filter(market__owner=self.request.user, market_id=self.kwargs['market_id'])
+        return MarketItem.objects.filter(market__owner=self.request.user, market_id=self.kwargs['market_pk'])

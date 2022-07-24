@@ -18,6 +18,9 @@ class PublicMarketListSerializer(serializers.ModelSerializer):
 
 
 class UserMarketListCreateSerializer(serializers.ModelSerializer):
+
+    tags = serializers.ListField(child=serializers.CharField(), write_only=True)
+
     class Meta:
         model = Market
         exclude = ['is_verify', 'owner']
@@ -25,7 +28,8 @@ class UserMarketListCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         tags = validated_data.pop('tags')
         instance: Market = super(UserMarketListCreateSerializer, self).create(validated_data)
-        instance.tags.add(*MarketTag.objects.filter(id__in=tags))
+        if tags:
+            instance.tags.add(*MarketTag.objects.filter(id__in=tags[0].split(',')))
         return instance
 
 
@@ -44,10 +48,12 @@ class MarketItemListSerializer(serializers.ModelSerializer):
 class UserMarketItemListCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MarketItem
-        fields = '__all__'
+        exclude = ['market']
 
 
 class UserMarketItemDetailSerializer(serializers.ModelSerializer):
+    tags = TagSerializer(many=True, read_only=True)
+
     class Meta:
         model = MarketItem
         fields = '__all__'
