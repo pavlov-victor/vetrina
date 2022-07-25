@@ -12,7 +12,8 @@ DEBUG = env('DEBUG', bool, default=True)
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8899'  # это для того, чтобы сайт мог знать свой источник
+    'http://localhost:8899',  # это для того, чтобы сайт мог знать свой источник
+    'https://xn--80adjmzqn.xn--p1ai',
 ]
 
 INSTALLED_APPS = [
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -107,7 +109,7 @@ CORS_ALLOWED_ORIGINS = [
 ]  # Это для фронтендеров, чтобы запросы проходили с этих источников
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',

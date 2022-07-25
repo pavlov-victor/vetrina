@@ -13,7 +13,8 @@ schema_view = get_schema_view(
         contact=openapi.Contact(email="vitek@goykt.ru"),
         license=openapi.License(name="BSD License"),
     ),
-    url='http://localhost:8899',
+    # url='http://localhost:8899',
+    url ='https://xn--80adjmzqn.xn--p1ai',
     public=True,
     permission_classes=[permissions.AllowAny],
 )

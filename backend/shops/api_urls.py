@@ -1,7 +1,7 @@
 from django.urls import path, include
 
 from shops.api.api_v1 import MarketAllListAPIView, UserMarketListCreateAPIView, TagsListAPIView, \
-    UserMarketDetailAPIView, MarketItemListAPIView, UserMarketItemListCreateAPIView
+    UserMarketDetailAPIView, MarketItemListAPIView, UserMarketItemListCreateAPIView, UserMarketItemDetailAPIView
 
 api_v1 = [
     path('markets/', MarketAllListAPIView.as_view(), name='markets-list'),
@@ -16,8 +16,8 @@ api_v1 = [
     ),
     path(
         'markets/me/<market_pk>/items/<pk>/',
-        UserMarketItemListCreateAPIView.as_view(),
-        name='markets-me-items-list-create'
+        UserMarketItemDetailAPIView.as_view(),
+        name='markets-me-items-detail'
     ),
 ]
 
