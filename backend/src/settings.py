@@ -93,9 +93,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static-django/'
 STATIC_ROOT = env('STATIC_ROOT', default='staticfiles')
-MEDIA_URL = 'media/'
+MEDIA_URL = 'media-django/'
 MEDIA_ROOT = env('MEDIA_ROOT', default='mediafiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -103,6 +103,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://xn--80adjmzqn.xn--p1ai",
 ]  # Это для фронтендеров, чтобы запросы проходили с этих источников
 
 REST_FRAMEWORK = {
